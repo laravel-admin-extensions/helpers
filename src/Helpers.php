@@ -2,8 +2,8 @@
 
 namespace Encore\Admin\Helpers;
 
+use Encore\Admin\Admin;
 use Encore\Admin\Auth\Database\Menu;
-use Encore\Admin\Auth\Database\Permission;
 use Encore\Admin\Extension;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +17,8 @@ class Helpers extends Extension
     public static function boot()
     {
         static::registerRoutes();
+
+        Admin::extend('helpers', __CLASS__);
     }
 
     /**
@@ -94,11 +96,6 @@ class Helpers extends Extension
             Menu::create($menu);
         }
 
-        // Add a permission.
-        Permission::create([
-            'name'          => 'Admin helpers',
-            'slug'          => 'ext.helpers',
-            'http_path'     => admin_base_path('helpers/*'),
-        ]);
+        parent::createPermission('Admin helpers', 'ext.helpers', 'helpers/*');
     }
 }
