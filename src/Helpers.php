@@ -28,26 +28,15 @@ class Helpers extends Extension
      */
     public static function registerRoutes()
     {
-        /* @var \Illuminate\Routing\Router $router */
-        Route::group(['prefix' => config('admin.route.prefix')], function ($router) {
-
-            $attributes = array_merge([
-                'prefix'     => 'helpers',
-                'middleware' => config('admin.route.middleware'),
-            ], static::config('route', []));
-
+        parent::routes(function ($router) {
             /* @var \Illuminate\Routing\Router $router */
-            $router->group($attributes, function ($router) {
-
-                /* @var \Illuminate\Routing\Router $router */
-                $router->get('terminal/database', 'Encore\Admin\Helpers\Controllers\TerminalController@database');
-                $router->post('terminal/database', 'Encore\Admin\Helpers\Controllers\TerminalController@runDatabase');
-                $router->get('terminal/artisan', 'Encore\Admin\Helpers\Controllers\TerminalController@artisan');
-                $router->post('terminal/artisan', 'Encore\Admin\Helpers\Controllers\TerminalController@runArtisan');
-                $router->get('scaffold', 'Encore\Admin\Helpers\Controllers\ScaffoldController@index');
-                $router->post('scaffold', 'Encore\Admin\Helpers\Controllers\ScaffoldController@store');
-                $router->get('routes', 'Encore\Admin\Helpers\Controllers\RouteController@index');
-            });
+            $router->get('helpers/terminal/database', 'Encore\Admin\Helpers\Controllers\TerminalController@database');
+            $router->post('helpers/terminal/database', 'Encore\Admin\Helpers\Controllers\TerminalController@runDatabase');
+            $router->get('helpers/terminal/artisan', 'Encore\Admin\Helpers\Controllers\TerminalController@artisan');
+            $router->post('helpers/terminal/artisan', 'Encore\Admin\Helpers\Controllers\TerminalController@runArtisan');
+            $router->get('helpers/scaffold', 'Encore\Admin\Helpers\Controllers\ScaffoldController@index');
+            $router->post('helpers/scaffold', 'Encore\Admin\Helpers\Controllers\ScaffoldController@store');
+            $router->get('helpers/routes', 'Encore\Admin\Helpers\Controllers\RouteController@index');
         });
     }
 
