@@ -15,7 +15,7 @@ $ php artisan admin:import helpers
 
 ## Usage
 
-See [wiki](http://z-song.github.io/laravel-admin/#/en/helpers)
+See [wiki](http://laravel-admin.org/docs/#/en/helpers)
 
 License
 ------------
