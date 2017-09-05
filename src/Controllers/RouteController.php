@@ -28,6 +28,7 @@ class RouteController extends Controller
                     'PUT'    => 'yellow',
                     'DELETE' => 'red',
                     'PATCH'  => 'aqua',
+                    'OPTIONS'=> 'light-blue'
                 ];
 
                 $grid->method()->map(function ($method) use ($colors) {
