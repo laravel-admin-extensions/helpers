@@ -5,7 +5,6 @@ namespace Encore\Admin\Helpers;
 use Encore\Admin\Admin;
 use Encore\Admin\Auth\Database\Menu;
 use Encore\Admin\Extension;
-use Illuminate\Support\Facades\Route;
 
 class Helpers extends Extension
 {
@@ -74,11 +73,10 @@ class Helpers extends Extension
                 'title'     => 'Routes',
                 'icon'      => 'fa-list-alt',
                 'uri'       => 'helpers/routes',
-            ]
+            ],
         ];
 
         foreach ($menus as $menu) {
-
             $menu['parent_id'] = $root->id;
             $menu['order'] = $lastOrder++;
 
