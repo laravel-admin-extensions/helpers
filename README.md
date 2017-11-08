@@ -18,7 +18,7 @@ $ php artisan admin:import helpers
 
 ## Usage
 
-See [wiki](http://laravel-admin.org/docs/#/en/helpers)
+See [wiki](http://laravel-admin.org/docs/#/en/extension-helpers?id=helpers)
 
 License
 ------------
