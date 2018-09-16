@@ -10,6 +10,7 @@ use Encore\Admin\Facades\Admin;
 use Encore\Admin\Layout\Content;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Controllers\ModelForm;
+use Encore\Admin\Show;
 
 class DummyClass extends Controller
 {
@@ -28,6 +29,29 @@ class DummyClass extends Controller
             $content->description('description');
 
             $content->body($this->grid());
+        });
+    }
+
+    /**
+     * Show interface.
+     *
+     * @param mixed   $id
+     * @param Content $content
+     *
+     * @return Content
+     */
+ 	public function show($id)
+    {
+        return Admin::content(function (Content $content) use ($id) {
+
+            $content->header('Header');
+            $content->description('Description');
+
+            $content->body(Admin::show(DummyModel::findOrFail($id), function (Show $show) {
+
+                $show->id('ID');                
+
+            }));
         });
     }
 
