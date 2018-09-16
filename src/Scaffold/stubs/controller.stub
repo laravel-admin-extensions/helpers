@@ -32,6 +32,22 @@ class DummyClass extends Controller
     }
 
     /**
+     * Show interface.
+     *
+     * @param mixed   $id
+     * @param Content $content
+     *
+     * @return Content
+     */
+    public function show($id, Content $content)
+    {
+        return $content
+            ->header('header')
+            ->description('description')
+            ->body($this->detail($id));
+    }
+
+    /**
      * Edit interface.
      *
      * @param $id
@@ -78,6 +94,22 @@ class DummyClass extends Controller
             $grid->created_at();
             $grid->updated_at();
         });
+    }
+
+    /**
+     * Make a show builder.
+     *
+     * @param mixed $id
+     *
+     * @return Show
+     */
+    protected function detail($id)
+    {
+        $show = new Show(Administrator::findOrFail($id));
+
+        $show->id('ID');
+
+        return $show;
     }
 
     /**
