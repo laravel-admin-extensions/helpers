@@ -60,7 +60,6 @@ class ControllerCreator
 
         $this->generateFormField($fields);
 
-
         $stub = $this->files->get($this->getStub());
 
         $this->files->put($path, $this->replace($stub, $this->name, $model));
@@ -175,7 +174,6 @@ class ControllerCreator
 
         return $this;
     }
-
 
     public function generateGridField($fields = [])
     {
