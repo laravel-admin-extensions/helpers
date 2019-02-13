@@ -46,7 +46,7 @@ class ControllerCreator
      *
      * @return string
      */
-    public function create($model , $fields)
+    public function create($model, $fields)
     {
         $path = $this->getpath($this->name);
 
@@ -139,7 +139,7 @@ class ControllerCreator
         return __DIR__.'/stubs/controller.stub';
     }
 
-    public function generateFormField($fields = [] )
+    public function generateFormField($fields = [])
     {
         $fields = array_filter($fields, function ($field) {
             return isset($field['name']) && !empty($field['name']);
@@ -158,7 +158,7 @@ class ControllerCreator
         return $this;
     }
 
-    public function generateShowField($fields = [] )
+    public function generateShowField($fields = [])
     {
         $fields = array_filter($fields, function ($field) {
             return isset($field['name']) && !empty($field['name']);
@@ -177,7 +177,7 @@ class ControllerCreator
     }
 
 
-    public function generateGridField($fields = [] )
+    public function generateGridField($fields = [])
     {
         $fields = array_filter($fields, function ($field) {
             return isset($field['name']) && !empty($field['name']);
