@@ -123,6 +123,7 @@ class ControllerCreator
      */
     public function getStub()
     {
-        return __DIR__.'/stubs/controller.stub';
+        return (getenv("ADMIN_STUBS_DIR") || __DIR__.'/stubs/'). 'controller.stub';
+
     }
 }
