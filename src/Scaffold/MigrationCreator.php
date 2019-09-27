@@ -3,6 +3,7 @@
 namespace Encore\Admin\Helpers\Scaffold;
 
 use Illuminate\Database\Migrations\MigrationCreator as BaseMigrationCreator;
+use Illuminate\Support\Arr;
 
 class MigrationCreator extends BaseMigrationCreator
 {
@@ -93,7 +94,7 @@ class MigrationCreator extends BaseMigrationCreator
                 $column .= "->comment('{$field['comment']}')";
             }
 
-            if (array_get($field, 'nullable') == 'on') {
+            if (Arr::get($field, 'nullable') == 'on') {
                 $column .= '->nullable()';
             }
 

@@ -90,7 +90,7 @@
                                         @endforeach
                                     </select>
                                 </td>
-                                <td><input type="checkbox" name="fields[{{$index}}][nullable]" {{ array_get($field, 'nullable') == 'on' ? 'checked': '' }}/></td>
+                                <td><input type="checkbox" name="fields[{{$index}}][nullable]" {{ \Illuminate\Support\Arr::get($field, 'nullable') == 'on' ? 'checked': '' }}/></td>
                                 <td>
                                     <select style="width: 150px" name="fields[{{$index}}][key]">
                                         {{--<option value="primary">Primary</option>--}}
