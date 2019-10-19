@@ -74,52 +74,52 @@ class ControllerCreator
         $numberTypes = [
             'integer', 'float', 'double', 'decimal', 'tinyInteger', 'smallInteger',
             'mediumInteger', 'bigInteger', 'unsignedTinyInteger', 'unsignedSmallInteger', 'unsignedMediumInteger',
-            'unsignedInteger', 'unsignedBigInteger'
+            'unsignedInteger', 'unsignedBigInteger',
         ];
 
         $textareaTypes = [
-            'text',  'mediumText', 'longText'
+            'text',  'mediumText', 'longText',
         ];
 
         $dateTypes = [
-            'date'
+            'date',
         ];
 
         $timeTypes = [
-            'time', 'timeTz'
+            'time', 'timeTz',
         ];
 
         $dateTimeTypes = [
-            'dateTime', 'dateTimeTz'
+            'dateTime', 'dateTimeTz',
         ];
 
         $boolTypes = [
-            'boolean'
+            'boolean',
         ];
 
         $enumTypes = [
-            'enum'
+            'enum',
         ];
 
         $ipTypes = [
-            'ipAddress'
+            'ipAddress',
         ];
 
         if (in_array($dbTypes,$numberTypes)) {
             $field = 'number';
-        } else if (in_array($dbTypes,$textareaTypes)) {
+        } elseif (in_array($dbTypes,$textareaTypes)) {
             $field = 'texatrea';
-        } else if (in_array($dbTypes,$dateTypes)) {
+        } elseif (in_array($dbTypes,$dateTypes)) {
             $field = 'date';
-        } else if (in_array($dbTypes,$timeTypes)) {
+        } elseif (in_array($dbTypes,$timeTypes)) {
             $field = 'time';
-        } else if (in_array($dbTypes,$dateTimeTypes)) {
+        } elseif (in_array($dbTypes,$dateTimeTypes)) {
             $field = 'datetime';
-        } else if (in_array($dbTypes,$boolTypes)) {
+        } elseif (in_array($dbTypes,$boolTypes)) {
             $field = 'switch';
-        } else if (in_array($dbTypes,$enumTypes)) {
+        } elseif (in_array($dbTypes,$enumTypes)) {
             $field = 'radio';
-        } else if (in_array($dbTypes,$ipTypes)) {
+        } elseif (in_array($dbTypes,$ipTypes)) {
             $field = 'ip';
         } else {
             $field = 'text';
@@ -157,14 +157,14 @@ class ControllerCreator
         $form[] =  "} \n";
         foreach ($fields as $field) {
             $column = "->{$field['name']}('{$field['name']}')";
-            if ($this->setFieldType($field['type'])==='date') {
+            if ($this->setFieldType($field['type']) === 'date') {
                 $colgrid = $column."->display(function(\$date){ \n ".
                     "           return Carbon::parse(\$date)->translatedFormat('d F Y'); \n ".
                     "       })";
                 $colshow = $column."->as(function(\$date){ \n ".
                     "           return Carbon::parse(\$date)->translatedFormat('d F Y'); \n ".
                     "       })";
-            } else if ($this->setFieldType($field['type'])==='datetime') {
+            } elseif ($this->setFieldType($field['type']) === 'datetime') {
                 $colgrid = $column."->display(function(\$date){ \n ".
                     "           return Carbon::parse(\$date)->translatedFormat('d F Y h:m:s'); \n ".
                     "       })";
