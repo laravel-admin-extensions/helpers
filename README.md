@@ -1,7 +1,7 @@
 Helpers for laravel-admin
 =========================
 
-[![StyleCI](https://styleci.io/repos/97900966/shield?branch=master)](https://styleci.io/repos/97900966)
+[![StyleCI](https://styleci.io/repos/213192181/shield?branch=master)](https://styleci.io/repos/213192181)
 [![Packagist](https://img.shields.io/packagist/l/laravel-admin-ext/helpers.svg?maxAge=2592000)](https://packagist.org/packages/laravel-admin-ext/helpers)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel-admin-ext/helpers.svg?style=flat-square)](https://packagist.org/packages/laravel-admin-ext/helpers)
 [![Pull request welcome](https://img.shields.io/badge/pr-welcome-green.svg?style=flat-square)]()
