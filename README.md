@@ -5,6 +5,10 @@ Helpers for laravel-admin
 [![Packagist](https://img.shields.io/packagist/l/laravel-admin-ext/helpers.svg?maxAge=2592000)](https://packagist.org/packages/laravel-admin-ext/helpers)
 [![Total Downloads](https://img.shields.io/packagist/dt/laravel-admin-ext/helpers.svg?style=flat-square)](https://packagist.org/packages/laravel-admin-ext/helpers)
 [![Pull request welcome](https://img.shields.io/badge/pr-welcome-green.svg?style=flat-square)]()
+<div align="center">
+    <a href="https://travis-ci.org/muhlisabdi/helper">
+        <img src="https://travis-ci.org/muhlisabdi/helper.svg?branch=master" alt="Build Status">
+    </a>
 
 [Documentation](http://laravel-admin.org/docs/#/en/extension-helpers) | [中文文档](http://laravel-admin.org/docs/#/zh/extension-helpers)
 
