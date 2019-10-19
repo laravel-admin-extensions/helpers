@@ -24,7 +24,7 @@ class DummyClass extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
+            ->header(trans('admin.index'))
             ->description('List of DummyModel')
             ->body($this->grid());
     }
@@ -39,7 +39,7 @@ class DummyClass extends Controller
     public function show($id, Content $content)
     {
         return $content
-            ->header('Detail')
+            ->header(trans('admin.detail'))
             ->description('Detail of DummyModel')
             ->body($this->detail($id));
     }
@@ -54,7 +54,7 @@ class DummyClass extends Controller
     public function edit($id, Content $content)
     {
         return $content
-            ->header('Edit')
+            ->header(trans('admin.edit'))
             ->description('Edit DummyModel')
             ->body($this->form()->edit($id));
     }
@@ -68,7 +68,7 @@ class DummyClass extends Controller
     public function create(Content $content)
     {
         return $content
-            ->header('Create')
+            ->header(trans('admin.create'))
             ->description('Create DummyModel')
             ->body($this->form());
     }
