@@ -19,6 +19,13 @@ class ControllerCreator
     protected $files;
 
     /**
+     * @var string
+     */
+    protected $listForm = '';
+    protected $listShow = '';
+    protected $listGrid = '';
+
+    /**
      * ControllerCreator constructor.
      *
      * @param string $name
@@ -54,6 +61,149 @@ class ControllerCreator
 
         return $path;
     }
+    /**
+     * Set Type of Fileds.
+     *
+     * @param string      $dbTypes
+     *
+     * @return string
+     */
+    public function setFieldType($dbTypes)
+    {
+
+        $numberTypes = [
+            'integer', 'float', 'double', 'decimal', 'tinyInteger', 'smallInteger',
+            'mediumInteger', 'bigInteger', 'unsignedTinyInteger', 'unsignedSmallInteger', 'unsignedMediumInteger',
+            'unsignedInteger', 'unsignedBigInteger'
+        ];
+
+        $textareaTypes = [
+            'text',  'mediumText', 'longText'
+        ];
+
+        $dateTypes = [
+            'date'
+        ];
+
+        $timeTypes = [
+            'time', 'timeTz'
+        ];
+
+        $dateTimeTypes = [
+            'dateTime', 'dateTimeTz'
+        ];
+
+        $boolTypes = [
+            'boolean'
+        ];
+
+        $enumTypes = [
+            'enum'
+        ];
+
+        $ipTypes = [
+            'ipAddress'
+        ];
+
+        if (in_array($dbTypes,$numberTypes)) {
+            $field = 'number';
+        } else if (in_array($dbTypes,$textareaTypes)) {
+            $field = 'texatrea';
+        } else if (in_array($dbTypes,$dateTypes)) {
+            $field = 'date';
+        } else if (in_array($dbTypes,$timeTypes)) {
+            $field = 'time';
+        } else if (in_array($dbTypes,$dateTimeTypes)) {
+            $field = 'datetime';
+        } else if (in_array($dbTypes,$boolTypes)) {
+            $field = 'switch';
+        } else if (in_array($dbTypes,$enumTypes)) {
+            $field = 'radio';
+        } else if (in_array($dbTypes,$ipTypes)) {
+            $field = 'ip';
+        } else {
+            $field = 'text';
+        }
+        return $field;
+
+    }
+
+    /**
+     * Build the List of Fileds.
+     *
+     * @param array      $fields
+     * @param string     $keyName
+     * @param bool|true  $useTimestamps
+     *
+     * @throws \Exception
+     *
+     * @return $this
+     */
+    public function buildFields($fields = [], $keyName = 'id', $useTimestamps = true)
+    {
+
+        $fields = array_filter($fields, function ($field) {
+            return isset($field['name']) && !empty($field['name']);
+        });
+
+        if (empty($fields)) {
+            throw new \Exception('Fields can\'t be empty');
+        }
+
+        $grid[] = "\$grid->$keyName('$keyName')->sortable();\n";
+        $show[] = "\$show->$keyName('$keyName');\n";
+        $form[] = "if (\$form->isEditing()){ \n";
+        $form[] = "    "."\$form->display('$keyName'); \n";
+        $form[] =  "} \n";
+        foreach ($fields as $field) {
+            $column = "->{$field['name']}('{$field['name']}')";
+            if ($this->setFieldType($field['type'])==='date') {
+                $colgrid = $column."->display(function(\$date){ \n ".
+                    "           return Carbon::parse(\$date)->translatedFormat('d F Y'); \n ".
+                    "       })";
+                $colshow = $column."->as(function(\$date){ \n ".
+                    "           return Carbon::parse(\$date)->translatedFormat('d F Y'); \n ".
+                    "       })";
+            } else if ($this->setFieldType($field['type'])==='datetime') {
+                $colgrid = $column."->display(function(\$date){ \n ".
+                    "           return Carbon::parse(\$date)->translatedFormat('d F Y h:m:s'); \n ".
+                    "       })";
+                $colshow = $column."->as(function(\$date){ \n ".
+                    "           return Carbon::parse(\$date)->translatedFormat('d F Y h:m:s'); \n ".
+                    "       })";
+            } else {
+                $colgrid = $column;
+                $colshow = $column;
+            }
+
+            $grid[] = "\$grid".$colgrid.";\n";
+            $show[] = "\$show".$colshow.";\n";
+            $form[] = "\$form->".$this->setFieldType($field['type'])."('{$field['name']}');\n";
+        }
+
+        if ($useTimestamps) {
+            $show[] = "\$show->created_at()->as(function (\$created_at) { \n";
+            $show[] = "   "." return Carbon::parse(\$created_at)->translatedFormat('d F Y d:m:s'); \n";
+            $show[] = "}); \n";
+            $show[] = "\$show->updated_at()->as(function (\$updated_at) { \n";
+            $show[] = "   "." return Carbon::parse(\$updated_at)->translatedFormat('d F Y d:m:s'); \n";
+            $show[] = "}); \n";
+            $grid[] = "\$grid->created_at()->display(function (\$created_at) { \n";
+            $grid[] = "   "." return Carbon::parse(\$created_at)->translatedFormat('d F Y d:m:s'); \n";
+            $grid[] = "}); \n";
+            $grid[] = "\$grid->updated_at()->display(function (\$updated_at) { \n";
+            $grid[] = "   "." return Carbon::parse(\$updated_at)->translatedFormat('d F Y d:m:s'); \n";
+            $grid[] = "}) \n;";
+
+
+        }
+
+        $this->listGrid = trim(implode(str_repeat(' ', 8), $grid), "\n");
+        $this->listShow = trim(implode(str_repeat(' ', 8), $show), "\n");
+        $this->listForm = trim(implode(str_repeat(' ', 8), $form), "\n");
+
+        return $this;
+    }
 
     /**
      * @param string $stub
@@ -67,8 +217,8 @@ class ControllerCreator
         $stub = $this->replaceClass($stub, $name);
 
         return str_replace(
-            ['DummyModelNamespace', 'DummyModel'],
-            [$model, class_basename($model)],
+            ['DummyModelNamespace', 'DummyModel', 'GridDummy', 'ShowDummy', 'FormDummy'],
+            [$model, class_basename($model), $this->listGrid, $this->listShow, $this->listForm],
             $stub
         );
     }

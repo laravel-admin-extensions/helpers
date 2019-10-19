@@ -9,6 +9,7 @@ use Encore\Admin\Form;
 use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
+use Illuminate\Support\Carbon;
 
 class DummyClass extends Controller
 {
@@ -24,7 +25,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header('Index')
-            ->description('description')
+            ->description('List of DummyModel')
             ->body($this->grid());
     }
 
@@ -39,7 +40,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header('Detail')
-            ->description('description')
+            ->description('Detail of DummyModel')
             ->body($this->detail($id));
     }
 
@@ -54,7 +55,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header('Edit')
-            ->description('description')
+            ->description('Edit DummyModel')
             ->body($this->form()->edit($id));
     }
 
@@ -68,7 +69,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header('Create')
-            ->description('description')
+            ->description('Create DummyModel')
             ->body($this->form());
     }
 
@@ -81,9 +82,7 @@ class DummyClass extends Controller
     {
         $grid = new Grid(new DummyModel);
 
-        $grid->id('ID');
-        $grid->created_at('Created at');
-        $grid->updated_at('Updated at');
+        GridDummy
 
         return $grid;
     }
@@ -98,9 +97,7 @@ class DummyClass extends Controller
     {
         $show = new Show(DummyModel::findOrFail($id));
 
-        $show->id('ID');
-        $show->created_at('Created at');
-        $show->updated_at('Updated at');
+        ShowDummy
 
         return $show;
     }
@@ -114,9 +111,7 @@ class DummyClass extends Controller
     {
         $form = new Form(new DummyModel);
 
-        $form->display('ID');
-        $form->display('Created at');
-        $form->display('Updated at');
+        FormDummy
 
         return $form;
     }
