@@ -19,6 +19,7 @@ class DummyClass extends Controller
      * Index interface.
      *
      * @param Content $content
+     *
      * @return Content
      */
     public function index(Content $content)
@@ -34,6 +35,7 @@ class DummyClass extends Controller
      *
      * @param mixed $id
      * @param Content $content
+     *
      * @return Content
      */
     public function show($id, Content $content)
@@ -49,6 +51,7 @@ class DummyClass extends Controller
      *
      * @param mixed $id
      * @param Content $content
+     *
      * @return Content
      */
     public function edit($id, Content $content)
@@ -63,6 +66,7 @@ class DummyClass extends Controller
      * Create interface.
      *
      * @param Content $content
+     *
      * @return Content
      */
     public function create(Content $content)
@@ -80,7 +84,7 @@ class DummyClass extends Controller
      */
     protected function grid()
     {
-        $grid = new Grid(new DummyModel);
+        $grid = new Grid(new DummyModel());
 
         GridDummy
 
@@ -91,6 +95,7 @@ class DummyClass extends Controller
      * Make a show builder.
      *
      * @param mixed $id
+     *
      * @return Show
      */
     protected function detail($id)
@@ -109,7 +114,7 @@ class DummyClass extends Controller
      */
     protected function form()
     {
-        $form = new Form(new DummyModel);
+        $form = new Form(new DummyModel());
 
         FormDummy
 
