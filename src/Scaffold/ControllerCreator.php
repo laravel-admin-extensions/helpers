@@ -165,10 +165,10 @@ class ControllerCreator
                     '       })';
             } elseif ($this->setFieldType($field['type']) === 'datetime') {
                 $colgrid = $column."->display(function(\$date){ \n ".
-                    "           return Carbon::parse(\$date)->translatedFormat('d F Y h:m:s'); \n ".
+                    "           return Carbon::parse(\$date)->translatedFormat('d F Y H:m:s'); \n ".
                     '       })';
                 $colshow = $column."->as(function(\$date){ \n ".
-                    "           return Carbon::parse(\$date)->translatedFormat('d F Y h:m:s'); \n ".
+                    "           return Carbon::parse(\$date)->translatedFormat('d F Y H:m:s'); \n ".
                     '       })';
             } else {
                 $colgrid = $column;
@@ -182,16 +182,16 @@ class ControllerCreator
 
         if ($useTimestamps) {
             $show[] = "\$show->created_at(trans('admin.created_at'))->as(function (\$created_at) { \n";
-            $show[] = '   '." return Carbon::parse(\$created_at)->translatedFormat('d F Y d:m:s'); \n";
+            $show[] = '   '." return Carbon::parse(\$created_at)->translatedFormat('d F Y H:m:s'); \n";
             $show[] = "}); \n";
             $show[] = "\$show->updated_at(trans('admin.updated_at'))->as(function (\$updated_at) { \n";
-            $show[] = '   '." return Carbon::parse(\$updated_at)->translatedFormat('d F Y d:m:s'); \n";
+            $show[] = '   '." return Carbon::parse(\$updated_at)->translatedFormat('d F Y H:m:s'); \n";
             $show[] = "}); \n";
             $grid[] = "\$grid->created_at(trans('admin.created_at'))->display(function (\$created_at) { \n";
-            $grid[] = '   '." return Carbon::parse(\$created_at)->translatedFormat('d F Y d:m:s'); \n";
+            $grid[] = '   '." return Carbon::parse(\$created_at)->translatedFormat('d F Y H:m:s'); \n";
             $grid[] = "}); \n";
             $grid[] = "\$grid->updated_at(trans('admin.updated_at'))->display(function (\$updated_at) { \n";
-            $grid[] = '   '." return Carbon::parse(\$updated_at)->translatedFormat('d F Y d:m:s'); \n";
+            $grid[] = '   '." return Carbon::parse(\$updated_at)->translatedFormat('d F Y H:m:s'); \n";
             $grid[] = "}) \n;";
         }
 
