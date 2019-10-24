@@ -151,9 +151,7 @@ class ControllerCreator
 
         $grid[] = "\$grid->$keyName('$keyName')->sortable();\n";
         $show[] = "\$show->$keyName('$keyName');\n";
-        $form[] = "if (\$form->isEditing()){ \n";
-        $form[] = '    '."\$form->display('$keyName'); \n";
-        $form[] = "} \n";
+        $form[] = "\$form->display('$keyName'); \n";
         foreach ($fields as $field) {
             $column = "->{$field['name']}('{$field['name']}')";
             if ($this->setFieldType($field['type']) === 'date') {
