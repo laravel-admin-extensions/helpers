@@ -18,6 +18,12 @@ class ControllerCreator
      */
     protected $files;
 
+    protected $DummyGridField = '';
+
+    protected $DummyShowField = '';
+
+    protected $DummyFormField = '';
+
     /**
      * ControllerCreator constructor.
      *
@@ -40,13 +46,19 @@ class ControllerCreator
      *
      * @return string
      */
-    public function create($model)
+    public function create($model, $fields)
     {
         $path = $this->getpath($this->name);
 
         if ($this->files->exists($path)) {
             throw new \Exception("Controller [$this->name] already exists!");
         }
+
+        $this->generateGridField($fields);
+
+        $this->generateShowField($fields);
+
+        $this->generateFormField($fields);
 
         $stub = $this->files->get($this->getStub());
 
@@ -67,8 +79,8 @@ class ControllerCreator
         $stub = $this->replaceClass($stub, $name);
 
         return str_replace(
-            ['DummyModelNamespace', 'DummyModel'],
-            [$model, class_basename($model)],
+            ['DummyModelNamespace', 'DummyModel', 'DummyGridField', 'DummyShowField', 'DummyFormField'],
+            [$model, class_basename($model), $this->DummyGridField, $this->DummyShowField, $this->DummyFormField],
             $stub
         );
     }
@@ -124,5 +136,60 @@ class ControllerCreator
     public function getStub()
     {
         return __DIR__.'/stubs/controller.stub';
+    }
+
+    public function generateFormField($fields = [])
+    {
+        $fields = array_filter($fields, function ($field) {
+            return isset($field['name']) && !empty($field['name']);
+        });
+
+        if (empty($fields)) {
+            throw new \Exception('Table fields can\'t be empty');
+        }
+
+        foreach ($fields as $field) {
+            $rows[] = "\$form->text('{$field['name']}', '{$field['name']}');\n";
+        }
+
+        $this->DummyFormField = trim(implode(str_repeat(' ', 8), $rows), "\n");
+
+        return $this;
+    }
+
+    public function generateShowField($fields = [])
+    {
+        $fields = array_filter($fields, function ($field) {
+            return isset($field['name']) && !empty($field['name']);
+        });
+
+        if (empty($fields)) {
+            throw new \Exception('Table fields can\'t be empty');
+        }
+        foreach ($fields as $field) {
+            $rows[] = "\$show->{$field['name']}('{$field['name']}');\n";
+        }
+
+        $this->DummyShowField = trim(implode(str_repeat(' ', 8), $rows), "\n");
+
+        return $this;
+    }
+
+    public function generateGridField($fields = [])
+    {
+        $fields = array_filter($fields, function ($field) {
+            return isset($field['name']) && !empty($field['name']);
+        });
+
+        if (empty($fields)) {
+            throw new \Exception('Table fields can\'t be empty');
+        }
+        foreach ($fields as $field) {
+            $rows[] = "\$grid->{$field['name']}('{$field['name']}');\n";
+        }
+
+        $this->DummyGridField = trim(implode(str_repeat(' ', 8), $rows), "\n");
+
+        return $this;
     }
 }
