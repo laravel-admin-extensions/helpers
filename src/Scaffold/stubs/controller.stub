@@ -26,7 +26,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header(trans('admin.index'))
-            ->description('List of DummyModel')
+            ->description(trans('admin.description'))
             ->body($this->grid());
     }
 
@@ -42,7 +42,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header(trans('admin.detail'))
-            ->description('Detail of DummyModel')
+            ->description(trans('admin.description'))
             ->body($this->detail($id));
     }
 
@@ -58,7 +58,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header(trans('admin.edit'))
-            ->description('Edit DummyModel')
+            ->description(trans('admin.description'))
             ->body($this->form()->edit($id));
     }
 
@@ -73,7 +73,7 @@ class DummyClass extends Controller
     {
         return $content
             ->header(trans('admin.create'))
-            ->description('Create DummyModel')
+            ->description(trans('admin.description'))
             ->body($this->form());
     }
 
@@ -86,7 +86,10 @@ class DummyClass extends Controller
     {
         $grid = new Grid(new DummyModel());
 
-        GridDummy
+        $grid->id('ID');
+        DummyGridField
+        $grid->created_at(trans('admin.created_at'));
+        $grid->updated_at(trans('admin.updated_at'));
 
         return $grid;
     }
@@ -102,7 +105,10 @@ class DummyClass extends Controller
     {
         $show = new Show(DummyModel::findOrFail($id));
 
-        ShowDummy
+        $show->id('ID');
+        DummyShowField
+        $show->created_at(trans('admin.created_at'));
+        $show->updated_at(trans('admin.updated_at'));
 
         return $show;
     }
@@ -116,7 +122,10 @@ class DummyClass extends Controller
     {
         $form = new Form(new DummyModel());
 
-        FormDummy
+        $form->display('ID');
+        DummyFormField
+        $form->display(trans('admin.created_at'));
+        $form->display(trans('admin.updated_at'));
 
         return $form;
     }
