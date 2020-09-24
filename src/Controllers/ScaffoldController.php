@@ -2,7 +2,6 @@
 
 namespace Encore\Admin\Helpers\Controllers;
 
-use Encore\Admin\Facades\Admin;
 use Encore\Admin\Helpers\Scaffold\ControllerCreator;
 use Encore\Admin\Helpers\Scaffold\MigrationCreator;
 use Encore\Admin\Helpers\Scaffold\ModelCreator;
@@ -15,23 +14,22 @@ use Illuminate\Support\MessageBag;
 
 class ScaffoldController extends Controller
 {
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $content->header('Scaffold');
+        $dbTypes = [
+            'string', 'integer', 'text', 'float', 'double', 'decimal', 'boolean', 'date', 'time',
+            'dateTime', 'timestamp', 'char', 'mediumText', 'longText', 'tinyInteger', 'smallInteger',
+            'mediumInteger', 'bigInteger', 'unsignedTinyInteger', 'unsignedSmallInteger', 'unsignedMediumInteger',
+            'unsignedInteger', 'unsignedBigInteger', 'enum', 'json', 'jsonb', 'dateTimeTz', 'timeTz',
+            'timestampTz', 'nullableTimestamps', 'binary', 'ipAddress', 'macAddress',
+        ];
 
-            $dbTypes = [
-                'string', 'integer', 'text', 'float', 'double', 'decimal', 'boolean', 'date', 'time',
-                'dateTime', 'timestamp', 'char', 'mediumText', 'longText', 'tinyInteger', 'smallInteger',
-                'mediumInteger', 'bigInteger', 'unsignedTinyInteger', 'unsignedSmallInteger', 'unsignedMediumInteger',
-                'unsignedInteger', 'unsignedBigInteger', 'enum', 'json', 'jsonb', 'dateTimeTz', 'timeTz',
-                'timestampTz', 'nullableTimestamps', 'binary', 'ipAddress', 'macAddress',
-            ];
+        $action = URL::current();
 
-            $action = URL::current();
+        admin_assets_require('icheck');
 
-            $content->row(view('laravel-admin-helpers::scaffold', compact('dbTypes', 'action')));
-        });
+        return $content->header('Scaffold')
+            ->view('laravel-admin-helpers::scaffold', compact('dbTypes', 'action'));
     }
 
     public function store(Request $request)
@@ -62,7 +60,7 @@ class ScaffoldController extends Controller
             if (in_array('migration', $request->get('create'))) {
                 $migrationName = 'create_'.$request->get('table_name').'_table';
 
-                $paths['migration'] = (new MigrationCreator(app('files')))->buildBluePrint(
+                $paths['migration'] = (new MigrationCreator(app('files'), app()->basePath('stubs')))->buildBluePrint(
                     $request->get('fields'),
                     $request->get('primary_key', 'id'),
                     $request->get('timestamps') == 'on',

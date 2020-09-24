@@ -18,7 +18,7 @@ class ControllerCreator
      */
     protected $files;
 
-    protected $DummyGridField = '';
+    protected $DummyTableField = '';
 
     protected $DummyShowField = '';
 
@@ -54,7 +54,7 @@ class ControllerCreator
             throw new \Exception("Controller [$this->name] already exists!");
         }
 
-        $this->generateGridField($fields);
+        $this->generateTableField($fields);
 
         $this->generateShowField($fields);
 
@@ -79,8 +79,8 @@ class ControllerCreator
         $stub = $this->replaceClass($stub, $name);
 
         return str_replace(
-            ['DummyModelNamespace', 'DummyModel', 'DummyGridField', 'DummyShowField', 'DummyFormField'],
-            [$model, class_basename($model), $this->DummyGridField, $this->DummyShowField, $this->DummyFormField],
+            ['DummyModelNamespace', 'DummyModel', 'DummyTableField', 'DummyShowField', 'DummyFormField'],
+            [$model, class_basename($model), $this->DummyTableField, $this->DummyShowField, $this->DummyFormField],
             $stub
         );
     }
@@ -167,7 +167,7 @@ class ControllerCreator
             throw new \Exception('Table fields can\'t be empty');
         }
         foreach ($fields as $field) {
-            $rows[] = "\$show->{$field['name']}('{$field['name']}');\n";
+            $rows[] = "\$show->field('{$field['name']}', '{$field['name']}');\n";
         }
 
         $this->DummyShowField = trim(implode(str_repeat(' ', 8), $rows), "\n");
@@ -175,7 +175,7 @@ class ControllerCreator
         return $this;
     }
 
-    public function generateGridField($fields = [])
+    public function generateTableField($fields = [])
     {
         $fields = array_filter($fields, function ($field) {
             return isset($field['name']) && !empty($field['name']);
@@ -185,10 +185,10 @@ class ControllerCreator
             throw new \Exception('Table fields can\'t be empty');
         }
         foreach ($fields as $field) {
-            $rows[] = "\$grid->{$field['name']}('{$field['name']}');\n";
+            $rows[] = "\$table->column('{$field['name']}', __('{$field['name']}'));\n";
         }
 
-        $this->DummyGridField = trim(implode(str_repeat(' ', 8), $rows), "\n");
+        $this->DummyTableField = trim(implode(str_repeat(' ', 8), $rows), "\n");
 
         return $this;
     }

@@ -3,90 +3,29 @@
 namespace DummyNamespace;
 
 use DummyModelNamespace;
-use App\Http\Controllers\Controller;
-use Encore\Admin\Controllers\HasResourceActions;
+use Encore\Admin\Http\Controllers\AdminController;
 use Encore\Admin\Form;
-use Encore\Admin\Grid;
+use Encore\Admin\Table;
 use Encore\Admin\Layout\Content;
 use Encore\Admin\Show;
 
-class DummyClass extends Controller
+class DummyClass extends AdminController
 {
-    use HasResourceActions;
-
     /**
-     * Index interface.
+     * Make a table builder.
      *
-     * @param Content $content
-     * @return Content
+     * @return Table
      */
-    public function index(Content $content)
+    protected function table()
     {
-        return $content
-            ->header(trans('admin.index'))
-            ->description(trans('admin.description'))
-            ->body($this->grid());
-    }
+        $table = new Table(new DummyModel);
 
-    /**
-     * Show interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function show($id, Content $content)
-    {
-        return $content
-            ->header(trans('admin.detail'))
-            ->description(trans('admin.description'))
-            ->body($this->detail($id));
-    }
+        $table->column('id', 'ID');
+        DummyTableField
+        $table->column('created_at', trans('admin.created_at'));
+        $table->column('updated_at', trans('admin.updated_at'));
 
-    /**
-     * Edit interface.
-     *
-     * @param mixed $id
-     * @param Content $content
-     * @return Content
-     */
-    public function edit($id, Content $content)
-    {
-        return $content
-            ->header(trans('admin.edit'))
-            ->description(trans('admin.description'))
-            ->body($this->form()->edit($id));
-    }
-
-    /**
-     * Create interface.
-     *
-     * @param Content $content
-     * @return Content
-     */
-    public function create(Content $content)
-    {
-        return $content
-            ->header(trans('admin.create'))
-            ->description(trans('admin.description'))
-            ->body($this->form());
-    }
-
-    /**
-     * Make a grid builder.
-     *
-     * @return Grid
-     */
-    protected function grid()
-    {
-        $grid = new Grid(new DummyModel);
-
-        $grid->id('ID');
-        DummyGridField
-        $grid->created_at(trans('admin.created_at'));
-        $grid->updated_at(trans('admin.updated_at'));
-
-        return $grid;
+        return $table;
     }
 
     /**
@@ -99,10 +38,10 @@ class DummyClass extends Controller
     {
         $show = new Show(DummyModel::findOrFail($id));
 
-        $show->id('ID');
+        $show->('id', ''ID');
         DummyShowField
-        $show->created_at(trans('admin.created_at'));
-        $show->updated_at(trans('admin.updated_at'));
+        $show->field('created_at', trans('admin.created_at'));
+        $show->field('updated_at', trans('admin.updated_at'));
 
         return $show;
     }

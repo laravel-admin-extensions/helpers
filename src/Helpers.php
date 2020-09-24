@@ -3,7 +3,7 @@
 namespace Encore\Admin\Helpers;
 
 use Encore\Admin\Admin;
-use Encore\Admin\Auth\Database\Menu;
+use Encore\Admin\Models\Menu;
 use Encore\Admin\Extension;
 
 class Helpers extends Extension
@@ -47,7 +47,7 @@ class Helpers extends Extension
             'parent_id' => 0,
             'order'     => $lastOrder++,
             'title'     => 'Helpers',
-            'icon'      => 'fa-gears',
+            'icon'      => 'fas fa-cogs',
             'uri'       => '',
         ];
 
@@ -56,22 +56,22 @@ class Helpers extends Extension
         $menus = [
             [
                 'title'     => 'Scaffold',
-                'icon'      => 'fa-keyboard-o',
+                'icon'      => 'fas fa-keyboard',
                 'uri'       => 'helpers/scaffold',
             ],
             [
                 'title'     => 'Database terminal',
-                'icon'      => 'fa-database',
+                'icon'      => 'fas fa-database',
                 'uri'       => 'helpers/terminal/database',
             ],
             [
                 'title'     => 'Laravel artisan',
-                'icon'      => 'fa-terminal',
+                'icon'      => 'fas fa-terminal',
                 'uri'       => 'helpers/terminal/artisan',
             ],
             [
                 'title'     => 'Routes',
-                'icon'      => 'fa-list-alt',
+                'icon'      => 'fas fa-list-alt',
                 'uri'       => 'helpers/routes',
             ],
         ];
@@ -82,7 +82,5 @@ class Helpers extends Extension
 
             Menu::create($menu);
         }
-
-        parent::createPermission('Admin helpers', 'ext.helpers', 'helpers/*');
     }
 }

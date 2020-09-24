@@ -1,6 +1,4 @@
-<script>
-$(function () {
-
+<script require="slimscroll">
     var storageKey = function () {
         var connection = $('#connections').val();
         return 'la-'+connection+'-history'
@@ -67,14 +65,13 @@ $(function () {
             method: 'post',
             data: {
                 c: $input.val(),
-                _token: LA.token
             },
             success: function (response) {
 
                 history.push($input.val());
 
                 $('#terminal-box')
-                    .append('<div class="item"><small class="label label-default"> > artisan '+$input.val()+'<\/small><\/div>')
+                    .append('<div class="item"><small class="badge badge-secondary"> > artisan '+$input.val()+'<\/small><\/div>')
                     .append('<div class="item">'+response+'<\/div>')
                     .slimScroll({ scrollTo: $("#terminal-box")[0].scrollHeight });
 
@@ -114,20 +111,19 @@ $(function () {
         send();
     });
 
-});
 </script>
 <!-- Chat box -->
-<div class="box box-primary">
-    <div class="box-header with-border">
+<div class="card card-@color card-outline">
+    <div class="card-header with-border">
         <i class="fa fa-terminal"></i>
     </div>
-    <div class="box-body chat" id="terminal-box">
+    <div class="card-body chat" id="terminal-box">
         <!-- chat item -->
 
         <!-- /.item -->
     </div>
     <!-- /.chat -->
-    <div class="box-footer with-border">
+    <div class="card-footer with-border">
 
         <div style="margin-bottom: 10px;">
 
@@ -140,7 +136,7 @@ $(function () {
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     @foreach($command as $item)
-                    <li><a href="#" class="loaded-command">{{$item}}</a></li>
+                    <a href="#" class="loaded-command dropdown-item">{{$item}}</a>
                     @endforeach
                 </ul>
             </div>
@@ -154,20 +150,25 @@ $(function () {
                 </button>
                 <ul class="dropdown-menu" role="menu">
                     @foreach($commands['others'] as $item)
-                    <li><a href="#" class="loaded-command">{{$item}}</a></li>
+                    <a href="#" class="loaded-command dropdown-item">{{$item}}</a>
                     @endforeach
                 </ul>
             </div>
 
-            <button type="button" class="btn btn-success" id="terminal-send"><i class="fa fa-paper-plane"></i> send</button>
 
-            <button type="button" class="btn btn-warning" id="terminal-clear"><i class="fa fa-refresh"></i> clear</button>
         </div>
 
         <div class="input-group">
-            <span class="input-group-addon" style="font-size: 18px; line-height: 1.3333333;">artisan</span>
-            <input class="form-control input-lg" id="terminal-query" placeholder="command" style="border-left: 0px;padding-left: 0px;">
+            <div class="input-group-prepend">
+                <span class="input-group-text" >artisan</span>
+            </div>
+            <input class="form-control input-lg" id="terminal-query" placeholder="command">
+            <div class="input-group-append">
+                <button type="button" class="btn btn-success" id="terminal-send"><i class="fas fa-paper-plane"></i> send</button>
+
+                <button type="button" class="btn btn-warning" id="terminal-clear"><i class="fas fa-sync"></i> clear</button>
+            </div>
         </div>
     </div>
 </div>
-<!-- /.box (chat box) -->
+<!-- /.card (chat card) -->

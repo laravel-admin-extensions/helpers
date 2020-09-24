@@ -2,9 +2,8 @@
 
 namespace Encore\Admin\Helpers\Controllers;
 
-use Encore\Admin\Facades\Admin;
-use Encore\Admin\Grid;
 use Encore\Admin\Layout\Content;
+use Encore\Admin\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Routing\Controller;
 use Illuminate\Routing\Route;
@@ -13,50 +12,52 @@ use Illuminate\Support\Str;
 
 class RouteController extends Controller
 {
-    public function index()
+    public function index(Content $content)
     {
-        return Admin::content(function (Content $content) {
-            $model = $this->getModel()->setRoutes($this->getRoutes());
+        admin_assets_require('icheck');
 
-            $content->body(Admin::grid($model, function (Grid $grid) {
-                $colors = [
-                    'GET'    => 'green',
-                    'HEAD'   => 'gray',
-                    'POST'   => 'blue',
-                    'PUT'    => 'yellow',
-                    'DELETE' => 'red',
-                    'PATCH'  => 'aqua',
-                    'OPTIONS'=> 'light-blue',
-                ];
+        $model = $this->getModel()->setRoutes($this->getRoutes());
 
-                $grid->method()->map(function ($method) use ($colors) {
-                    return "<span class=\"label bg-{$colors[$method]}\">$method</span>";
-                })->implode('&nbsp;');
+        $table = new Table($model);
 
-                $grid->uri()->display(function ($uri) {
-                    return preg_replace('/\{.+?\}/', '<code>$0</span>', $uri);
-                })->sortable();
+        $colors = [
+            'GET'    => 'green',
+            'HEAD'   => 'gray',
+            'POST'   => 'blue',
+            'PUT'    => 'yellow',
+            'DELETE' => 'red',
+            'PATCH'  => 'aqua',
+            'OPTIONS'=> 'light-blue',
+        ];
 
-                $grid->name();
+        $table->method()->map(function ($method) use ($colors) {
+            return "<span class=\"badge bg-{$colors[$method]}\">$method</span>";
+        })->implode('&nbsp;');
 
-                $grid->action()->display(function ($uri) {
-                    return preg_replace('/@.+/', '<code>$0</code>', $uri);
-                });
-                $grid->middleware()->badge('yellow');
+        $table->uri()->display(function ($uri) {
+            return preg_replace('/\{.+?\}/', '<code>$0</span>', $uri);
+        })->sortable();
 
-                $grid->disablePagination();
-                $grid->disableRowSelector();
-                $grid->disableActions();
-                $grid->disableCreation();
-                $grid->disableExport();
+        $table->name();
 
-                $grid->filter(function ($filter) {
-                    $filter->disableIdFilter();
-                    $filter->equal('action');
-                    $filter->equal('uri');
-                });
-            }));
+        $table->action()->display(function ($uri) {
+            return preg_replace('/@.+/', '<code>$0</code>', $uri);
         });
+        $table->middleware()->badge('yellow');
+
+        $table->disablePagination();
+        $table->disableRowSelector();
+        $table->disableActions();
+        $table->disableCreateButton();
+        $table->disableExport();
+
+        $table->filter(function ($filter) {
+            $filter->disableIdFilter();
+            $filter->equal('action');
+            $filter->equal('uri');
+        });
+
+        return $content->body($table);
     }
 
     protected function getModel()
