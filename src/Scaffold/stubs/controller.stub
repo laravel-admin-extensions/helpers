@@ -12,6 +12,13 @@ use Encore\Admin\Show;
 class DummyClass extends AdminController
 {
     /**
+     * Title for current resource.
+     *
+     * @var string
+     */
+    protected $title = 'DummyModel';
+
+    /**
      * Make a table builder.
      *
      * @return Table
@@ -36,9 +43,9 @@ class DummyClass extends AdminController
      */
     protected function detail($id)
     {
-        $show = new Show(DummyModel::findOrFail($id));
+        $show = new Show(DummyModel::query()->findOrFail($id));
 
-        $show->('id', ''ID');
+        $show->field('id', ''ID');
         DummyShowField
         $show->field('created_at', trans('admin.created_at'));
         $show->field('updated_at', trans('admin.updated_at'));
@@ -55,10 +62,10 @@ class DummyClass extends AdminController
     {
         $form = new Form(new DummyModel);
 
-        $form->display('ID');
+        $form->display('id', 'ID');
         DummyFormField
-        $form->display(trans('admin.created_at'));
-        $form->display(trans('admin.updated_at'));
+        $form->display('created_at', trans('admin.created_at'));
+        $form->display('updated_at', trans('admin.updated_at'));
 
         return $form;
     }
