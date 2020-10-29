@@ -45,7 +45,7 @@ class DummyClass extends AdminController
     {
         $show = new Show(DummyModel::query()->findOrFail($id));
 
-        $show->field('id', ''ID');
+        $show->field('id', 'ID');
         DummyShowField
         $show->field('created_at', trans('admin.created_at'));
         $show->field('updated_at', trans('admin.updated_at'));
