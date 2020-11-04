@@ -15,8 +15,16 @@ Login using `admin/admin`
 ## Installation
 
 ```
-$ composer require laravel-admin-ext/helpers
+// For laravel-admin 1.x
+$ composer require "laravel-admin-ext/helpers:1.*"
 
+// For laravel-admin 2.x
+$ composer require "laravel-admin-ext/helpers:2.*"
+```
+
+Import menu items.
+
+```shell
 $ php artisan admin:import helpers
 ```
 
