@@ -133,7 +133,9 @@ class ModelCreator
     protected function replaceNamespace(&$stub, $name)
     {
         $stub = str_replace(
-            'DummyNamespace', $this->getNamespace($name), $stub
+            'DummyNamespace',
+            $this->getNamespace($name),
+            $stub
         );
 
         return $this;
