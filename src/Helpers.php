@@ -41,7 +41,7 @@ class Helpers extends Extension
 
     public static function import()
     {
-        $lastOrder = Menu::max('order');
+        $lastOrder = Menu::max('order') ?: 0;
 
         $root = [
             'parent_id' => 0,
