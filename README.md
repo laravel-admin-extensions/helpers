@@ -32,6 +32,12 @@ $ php artisan admin:import helpers
 
 See [wiki](http://laravel-admin.org/docs/#/en/extension-helpers?id=helpers)
 
+## Scaffold templates (stubs)   
+Copy `src/Scaffold/stubs` to your project `app/stubs` and add to your `.env` file:
+```
+ADMIN_STUBS_DIR=/app/stubs/
+```
+
 ## Donate
 
 > Help keeping the project development going, by donating a little. Thanks in advance.

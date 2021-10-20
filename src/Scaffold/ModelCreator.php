@@ -233,6 +233,6 @@ class ModelCreator
      */
     public function getStub()
     {
-        return __DIR__.'/stubs/model.stub';
+        return (getenv("ADMIN_STUBS_DIR") || __DIR__.'/stubs/'). 'model.stub';
     }
 }
