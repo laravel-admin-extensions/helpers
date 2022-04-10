@@ -28,7 +28,7 @@ class MigrationCreator extends BaseMigrationCreator
      *
      * @return string
      */
-    public function create($name, $path, $table = null, $create = true)
+    public function create($name, $path = null, $table = null, $create = true)
     {
         $this->ensureMigrationDoesntAlreadyExist($name);
 
